@@ -7,11 +7,18 @@
     "start": "node server.js",
     "dev": "node --watch server.js"
   },
-  "keywords": ["agrodigital", "api", "express", "gps.dev"],
+  "keywords": [
+    "agrodigital",
+    "api",
+    "express",
+    "gps.dev"
+  ],
   "author": "Gustavo Paula Santos (GPS.dev)",
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
     "express": "^4.19.2",
-    "cors": "^2.8.5"
+    "mongoose": "^9.8.0"
   }
 }

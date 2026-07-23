@@ -1,119 +1,52 @@
-// ============================================
-// CONTROLLER DE FAZENDAS
-// ============================================
-// O controller contém a LÓGICA de cada operação.
-// A rota recebe o pedido -> o controller resolve.
-// Aqui você aprende o CRUD completo:
-// Create (POST), Read (GET), Update (PUT), Delete (DELETE)
-// ============================================
+const Fazenda = require('../models/Fazenda');
 
-const fs = require('fs');
-const path = require('path');
-
-const ARQUIVO = path.join(__dirname, '..', 'data', 'fazendas.json');
-
-// --- Funções auxiliares de leitura/escrita no JSON ---
-
-function lerFazendas() {
-  const conteudo = fs.readFileSync(ARQUIVO, 'utf-8');
-  return JSON.parse(conteudo);
-}
-
-function salvarFazendas(fazendas) {
-  // null, 2 = formata o JSON com indentação de 2 espaços (legível)
-  fs.writeFileSync(ARQUIVO, JSON.stringify(fazendas, null, 2));
-}
-
-// --- READ: listar todas as fazendas ---
-// GET /api/fazendas
-function listar(req, res) {
-  const fazendas = lerFazendas();
-  res.json(fazendas);
-}
-
-// --- READ: buscar uma fazenda pelo id ---
-// GET /api/fazendas/3
-function buscarPorId(req, res) {
-  const id = Number(req.params.id); // req.params pega o :id da URL
-  const fazendas = lerFazendas();
-  const fazenda = fazendas.find(f => f.id === id);
-
-  if (!fazenda) {
-    return res.status(404).json({ erro: `Fazenda com id ${id} não encontrada` });
+async function listar(req, res) {
+  try {
+    const fazendas = await Fazenda.find();
+    res.json(fazendas);
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
   }
-
-  res.json(fazenda);
 }
 
-// --- CREATE: cadastrar nova fazenda ---
-// POST /api/fazendas  (com JSON no corpo)
-function criar(req, res) {
-  const { nome, proprietario, cidade, estado, pais, areaHectares, culturaPrincipal } = req.body;
-
-  // Validação simples: nome é obrigatório
-  if (!nome) {
-    return res.status(400).json({ erro: 'O campo "nome" é obrigatório' });
+async function buscarPorId(req, res) {
+  try {
+    const fazenda = await Fazenda.findById(req.params.id);
+    if (!fazenda) return res.status(404).json({ erro: 'Fazenda não encontrada' });
+    res.json(fazenda);
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
   }
-
-  const fazendas = lerFazendas();
-
-  // Gera o próximo id (maior id existente + 1)
-  const novoId = fazendas.length > 0
-    ? Math.max(...fazendas.map(f => f.id)) + 1
-    : 1;
-
-  const novaFazenda = {
-    id: novoId,
-    nome,
-    proprietario: proprietario || 'Não informado',
-    cidade: cidade || '',
-    estado: estado || '',
-    pais: pais || 'Brasil',
-    areaHectares: areaHectares || 0,
-    culturaPrincipal: culturaPrincipal || '',
-    ativa: true
-  };
-
-  fazendas.push(novaFazenda);
-  salvarFazendas(fazendas);
-
-  // 201 = "Created" (criado com sucesso)
-  res.status(201).json(novaFazenda);
 }
 
-// --- UPDATE: atualizar uma fazenda existente ---
-// PUT /api/fazendas/2  (com JSON no corpo)
-function atualizar(req, res) {
-  const id = Number(req.params.id);
-  const fazendas = lerFazendas();
-  const indice = fazendas.findIndex(f => f.id === id);
-
-  if (indice === -1) {
-    return res.status(404).json({ erro: `Fazenda com id ${id} não encontrada` });
+async function criar(req, res) {
+  try {
+    const fazenda = new Fazenda(req.body);
+    await fazenda.save();
+    res.status(201).json(fazenda);
+  } catch (err) {
+    res.status(400).json({ erro: err.message });
   }
-
-  // Mescla os dados antigos com os novos (o novo sobrescreve)
-  fazendas[indice] = { ...fazendas[indice], ...req.body, id };
-  salvarFazendas(fazendas);
-
-  res.json(fazendas[indice]);
 }
 
-// --- DELETE: remover uma fazenda ---
-// DELETE /api/fazendas/2
-function remover(req, res) {
-  const id = Number(req.params.id);
-  const fazendas = lerFazendas();
-  const indice = fazendas.findIndex(f => f.id === id);
-
-  if (indice === -1) {
-    return res.status(404).json({ erro: `Fazenda com id ${id} não encontrada` });
+async function atualizar(req, res) {
+  try {
+    const fazenda = await Fazenda.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    if (!fazenda) return res.status(404).json({ erro: 'Fazenda não encontrada' });
+    res.json(fazenda);
+  } catch (err) {
+    res.status(400).json({ erro: err.message });
   }
+}
 
-  const [removida] = fazendas.splice(indice, 1);
-  salvarFazendas(fazendas);
-
-  res.json({ mensagem: 'Fazenda removida com sucesso', fazenda: removida });
+async function remover(req, res) {
+  try {
+    const fazenda = await Fazenda.findByIdAndDelete(req.params.id);
+    if (!fazenda) return res.status(404).json({ erro: 'Fazenda não encontrada' });
+    res.json({ mensagem: 'Fazenda removida com sucesso', fazenda });
+  } catch (err) {
+    res.status(500).json({ erro: err.message });
+  }
 }
 
 module.exports = { listar, buscarPorId, criar, atualizar, remover };
