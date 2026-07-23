@@ -36,6 +36,10 @@ app.get('/api', (req, res) => {
 
 app.use('/api/fazendas', rotasFazendas);
 app.use('/api/safras', rotasSafras);
+const rotasConcorrentes = require('./routes/concorrentes');
+app.use('/api/concorrentes', rotasConcorrentes);
+
+app.get('/api/health', (req, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
 
 app.use((req, res) => {
   res.status(404).json({ erro: 'Rota não encontrada' });

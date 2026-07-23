@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "nome": "Aegro",
+    "site": "aegro.com.br",
+    "segmento": "Gestão agrícola",
+    "publicoAlvo": "Fazenda média/grande",
+    "preco": "R$ 300-800/mês",
+    "pontosForts": ["Interface moderna", "Integração fiscal", "App mobile"],
+    "pontosFracos": ["Preço alto", "Sem aluguel de maquinário", "Sem chatbot IA"],
+    "ndviSatelite": "Por talhão",
+    "financeiroBasico": "Sim",
+    "maquinario": "Não",
+    "chatbotIA": "Não tem"
+  },
+  {
+    "id": 2,
+    "nome": "TOTVS Agro",
+    "site": "totvs.com/agro",
+    "segmento": "ERP agrícola",
+    "publicoAlvo": "Grande produtor / cooperativa",
+    "preco": "R$ 1000+/mês",
+    "pontosForts": ["ERP completo", "Suporte enterprise", "Integração contábil"],
+    "pontosFracos": ["Muito caro", "Interface antiga", "Implementação longa"],
+    "ndviSatelite": "Referência",
+    "financeiroBasico": "Sim",
+    "maquinario": "Não faz fiscal",
+    "chatbotIA": "Não tem"
+  },
+  {
+    "id": 3,
+    "nome": "Solinftec",
+    "site": "solinftec.com",
+    "segmento": "Agricultura de precisão",
+    "publicoAlvo": "Grande produtor",
+    "preco": "Sob consulta",
+    "pontosForts": ["IA avançada", "Robótica", "Monitoramento em tempo real"],
+    "pontosFracos": ["Preço inacessível", "Foco em grandes fazendas", "Sem versão pequeno produtor"],
+    "ndviSatelite": "Referência",
+    "financeiroBasico": "Não",
+    "maquinario": "Sim",
+    "chatbotIA": "Parcial"
+  },
+  {
+    "id": 4,
+    "nome": "FieldView (Bayer)",
+    "site": "climate.com",
+    "segmento": "Monitoramento de campo",
+    "publicoAlvo": "Produtor de soja/milho",
+    "preco": "R$ 150-300/mês",
+    "pontosForts": ["NDVI por talhão", "App intuitivo", "Plano gratuito"],
+    "pontosFracos": ["Sem financeiro", "Sem maquinário", "Sem chatbot IA"],
+    "ndviSatelite": "Referência",
+    "financeiroBasico": "Não",
+    "maquinario": "Não faz fiscal",
+    "chatbotIA": "Não tem"
+  },
+  {
+    "id": 5,
+    "nome": "AgroDigital (GPS.dev)",
+    "site": "agrodigital-frontend.onrender.com",
+    "segmento": "Gestão agrícola multifazenda",
+    "publicoAlvo": "Fazenda pequena/média",
+    "preco": "R$ 150-300/mês",
+    "pontosForts": ["Único com aluguel de maquinário", "Chatbot IA planejado", "NDVI por talhão", "Preço competitivo"],
+    "pontosFracos": ["Sistema novo", "Sem app mobile ainda"],
+    "ndviSatelite": "Por talhão",
+    "financeiroBasico": "Sim",
+    "maquinario": "Planejado",
+    "chatbotIA": "Planejado"
+  }
+]
